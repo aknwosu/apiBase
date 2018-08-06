@@ -1,6 +1,8 @@
 import express from 'express';
 import logger from 'morgan';
 
+const routes = require('./routes');
+
 require('dotenv').config();
 
 
@@ -15,6 +17,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+routes(app);
 app.get('/', (req, res) => {
   res.send('Hello server');
 });
