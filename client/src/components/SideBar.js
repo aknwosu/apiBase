@@ -34,7 +34,6 @@ export default class SideBar extends Component {
       year: '',
       author: '',
     })
-    console.log('empty state', this.state)
   }
   search = () => {
     this.props.searchQuotes(this.state.search)
@@ -44,7 +43,6 @@ export default class SideBar extends Component {
       year: '',
       author: '',
     })
-    console.log('empty stat seae', this.state)
   }
   render() {
     return (
