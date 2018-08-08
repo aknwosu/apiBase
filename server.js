@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 routes(app);
 app.get('/', (req, res) => {
-  res.send('Hello server');
+  res.send('Hello Quotes server');
 });
 
 app.listen(PORT);
