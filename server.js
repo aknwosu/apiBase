@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from 'morgan';
+import path from 'path';
 
 const routes = require('./routes');
 
@@ -19,8 +20,16 @@ app.use(express.urlencoded({ extended: true }));
 
 
 routes(app);
-app.get('/', (req, res) => {
-  res.send('Hello Quotes server');
+if (process.env === "production") {
+  app.use(express.static(path.join(__dirname, '/client/build')))
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(`${__dirname}/client/build/index.html`));
 });
+}
+// app.get('/', (req, res) => {
+//   console.log(PORT)
+//   res.sendFile(path.join(`${__dirname}/client/build/index.html`));
+// });
 
 app.listen(PORT);
