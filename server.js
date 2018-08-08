@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 routes(app);
-if (process.env === "production") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, '/client/build')))
 
   app.get('*', (req, res) => {
