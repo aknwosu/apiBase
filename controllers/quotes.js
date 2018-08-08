@@ -134,9 +134,10 @@ class QuotesController {
 	}
 
 	static searchQuotes(req, res) {
+		
 		Quote.findAll({where: {
 			quote: {
-				$like: `%${req.query.searchTerm}%`
+				$iLike: `%${req.query.searchTerm}%`
 			}
 		}
 		}).then((searchResult) => {

@@ -30,17 +30,20 @@ class App extends Component {
     });
     console.log("new quote==", data);
     if (data.status === 200) {
-      this.setState({quotes: [data.data.data, ...this.state.quotes]})
+      this.getQuotes()      
     }
   }
   searchQuotes = async (searchVal) => {
-    const  { data } = await axios.get(`/api/v1/quotes/search?searchTerm=${searchVal}`);
-    this.setState({quotes: data.data})
-
+    const  { data, status } = await axios.get(`/api/v1/quotes/search?searchTerm=${searchVal}`);
+    if (status === 200) {
+      this.setState({quotes: data.data})
+    }
   }
   filter = async (year) => {
-    const  {data} = await axios.get(`/api/v1/quotes/years/${year}`);
-    this.setState({quotes: data.data})
+    const  {data, status} = await axios.get(`/api/v1/quotes/years/${year}`);
+    if (status === 200) {
+      this.setState({quotes: data.data})
+    }
   }
 
   render() {
