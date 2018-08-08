@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Navbar, Col, Row } from 'react-materialize'
 import axios from 'axios';
-import logo from './logo.svg';
 import './App.css';
 import SideBar from './components/SideBar'
 import Main from './components/Main';
@@ -10,7 +10,8 @@ class App extends Component {
     super(props)
     
     this.state = {
-      quotes: []
+      quotes: [],
+      title: "All Quotes"
     }
     this.getQuotes();
   }
@@ -18,53 +19,62 @@ class App extends Component {
   getQuotes = async () =>  {
     const { data, status } = await axios.get('/api/v1/quotes');
     if (status === 200) {
-      this.setState({quotes: data.data})
+      this.setState({quotes: data.data, title: "All Quotes"})
     }
-    console.log(this.state,status, data);
   }
   createQuote = async (quote, author, year) =>  {
     const  data  = await axios.post('/api/v1/quotes', {
       quote,
-      author,
+      author: author ||  "Unknown",
       year,
     });
-    console.log("new quote==", data);
     if (data.status === 200) {
       this.getQuotes()      
     }
   }
   searchQuotes = async (searchVal) => {
-    const  { data, status } = await axios.get(`/api/v1/quotes/search?searchTerm=${searchVal}`);
-    if (status === 200) {
-      this.setState({quotes: data.data})
-    }
+    let quotes = [];
+    try {
+      const  { data, status } = await axios.get(`/api/v1/quotes/search?searchTerm=${searchVal}`);
+      if (status === 200) {
+        quotes = data.data
+      }
+    } catch (error) {}
+    this.setState({quotes, title: `Search result for "${searchVal}"`})
   }
   filter = async (year) => {
-    const  {data, status} = await axios.get(`/api/v1/quotes/years/${year}`);
-    if (status === 200) {
-      this.setState({quotes: data.data})
-    }
+    let quotes = [];
+    try {
+      const  {data, status} = await axios.get(`/api/v1/quotes/years/${year}`);
+      if (status === 200) {
+        quotes = data.data
+      }
+    } catch (error) {}
+    this.setState({quotes, title: `Filter By Year: ${year}`})
+
   }
 
   render() {
 
     return (
       <div className="App">
-        { /*<header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-    </p> */}
-      <div className="sideBar">
-        <SideBar 
-          createQuote={this.createQuote}
-          searchQuotes={this.searchQuotes}
-          filter={this.filter}
+        <Navbar className="teal darken-4" brand='Quotes Builder' right>
+        </Navbar>
+        <Row>
+          <Col s={4} className='grid-example'>
+          <SideBar 
+            createQuote={this.createQuote}
+            searchQuotes={this.searchQuotes}
+            filter={this.filter}
+            getQuotes={this.getQuotes}
           />
-      </div>
-      <div className="mainView"><Main quotes={this.state.quotes} /></div>
+          </Col>
+          <Col s={8} className='grid-example'>
+          <h3>{this.state.title}</h3>
+          <Main quotes={this.state.quotes} />
+          </Col>
+  
+        </Row>
       </div>
     );
   }

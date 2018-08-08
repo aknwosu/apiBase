@@ -5,37 +5,69 @@ export default class SideBar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      quote: null,
+      quote: '',
       year: '',
       author: '',
-      search: null,
-      year: null
+      search: '',
+      filter: ''
     }
   }
   handleChange = (value, label) => {
-    console.log('handle changer', value, label)
     this.setState({[label]: value})
+  }
+  createQuote = () => {
+    this.props.createQuote(this.state.quote, this.state.author, this.state.year);
+    this.setState({
+      quote: '',
+      year: '',
+      author: '',
+      search: '',
+      filter: ''
+    })
+  }
+
+  filter = () => {
+    this.props.filter(this.state.year)
+    this.setState({
+      filter: '',
+      quote: '',
+      year: '',
+      author: '',
+    })
+  }
+  search = () => {
+    this.props.searchQuotes(this.state.search)
+    this.setState({
+      search: '',
+      quote: '',
+      year: '',
+      author: '',
+    })
   }
   render() {
     return (
       <div>
         <div>
-          <h3>Create Quote</h3>
+        <Button s={12} onClick={this.props.getQuotes} className="allQuotesButton" waves='light'>Get All Quotes</Button>
+          <h5>Create Quote</h5>
           <Row>
-            <Input placeholder="Quote here..." s={3} label="Quote" onChange={({target: {value}}) => this.handleChange(value, 'quote')}/>
-            <Input s={3} label="Year" placeholder='2000' onChange={({target: {value}}) => this.handleChange(value, 'year')} />
-            <Input placeholder="Author Name" s={3} label="Author" onChange={({target: {value}}) => this.handleChange(value, 'author')} />
-            <Button waves='light' onClick={()=> this.props.createQuote(this.state.quote, this.state.author, this.state.year)}>Add Quote<Icon left>cloud</Icon></Button>
+            <Input placeholder="Quote here..." s={12} label="Quote" value={this.state.quote} onChange={({target: {value}}) => this.handleChange(value, 'quote')}/>
+            <Input s={12} label="Year" placeholder='2000' value={this.state.year} onChange={({target: {value}}) => this.handleChange(value, 'year')} />
+            <Input placeholder="Author Name" s={12} value={this.state.author} label="Author" onChange={({target: {value}}) => this.handleChange(value, 'author')} />
+            <Button className="createQuote" waves='light' s={3} onClick={this.createQuote}>Add Quote<Icon left>cloud</Icon></Button>
           </Row>
         </div>
         <div>
+
         <Row>
-          <Input placeholder="Enter Search Text" s={3} onChange={({target: {value}}) => this.handleChange(value, 'search')}/>
-          <Button waves='light' onClick={() => this.props.searchQuotes(this.state.search)}>Search<Icon left>cloud</Icon></Button>
+          
+
+          <Input type="text" placeholder="Enter Search Text" value={this.state.search} s={8} onChange={({target: {value}}) => this.handleChange(value, 'search')}/>
+          <Button className="filterSearch" s={3} waves='light' onClick={this.search}>Search<Icon left>cloud</Icon></Button>
         </Row>
         <Row>
-          <Input placeholder="Filter by year" s={3} onChange={({target: {value}}) => this.handleChange(value, 'year')}/>
-          <Button waves='light' onClick={() => this.props.filter(this.state.year)}>Filter<Icon left>cloud</Icon></Button>
+          <Input placeholder="Filter by year" s={8} value={this.state.filter} onChange={({target: {value}}) => this.handleChange(value, 'filter')}/>
+          <Button s={4} className="filterSearch" waves='light' onClick={this.filter}>Filter<Icon left>cloud</Icon></Button>
         </Row>
         </div>
       </div>
