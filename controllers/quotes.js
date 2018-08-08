@@ -93,3 +93,42 @@ class QuotesController {
 			});
 		}).catch(err => res.status(400).send({ success: false, message: err.message }))
 	}
+
+	static deleteById (req, res) {
+		Quote.findOne({ where: {
+			id: req.params.quoteId
+		}}).then((quote) => {
+			if (!quote) {
+				return res.status(404).send({message: 'Not found'});
+			}
+			quote.destroy().then(() => res.status(200).send({ success: true, message: 'Deleted successfully' }));
+		}).catch(err => res.status(400).send({ success: false, message: err.message }))
+	}
+
+	static deleteByAuthor(req, res) {
+		Quote.findAll({where: {
+			author: req.params.author
+		}}).then((quotes) => {
+			if (!quotes.length) {
+				return res.status(404).send({ success: false, message: 'Not found' });
+			}
+			Quote.destroy({where: {
+				author: req.params.author
+			}
+			}).then(() => res.status(200).send({ success: true, message: 'Deleted successfully' }));
+		}).catch(err => res.status(400).send({ success: false, message: err.message }))
+	}
+
+	static deleteByYear(req, res) {
+		Quote.findAll({where: {
+			author: req.params.author
+		}}).then((quotes) => {
+			if (!quotes.length) {
+				return res.status(404).send({ success: false, message: 'Not found'});
+			}
+			Quote.destroy({where: {
+				author: req.params.author
+			}
+			}).then(() => res.status(200).send({ success: true, message: 'Deleted successfully' }));
+		}).catch(err => res.status(400).send({ success: false, message: err.message }))
+	}
