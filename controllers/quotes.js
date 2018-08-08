@@ -132,3 +132,16 @@ class QuotesController {
 			}).then(() => res.status(200).send({ success: true, message: 'Deleted successfully' }));
 		}).catch(err => res.status(400).send({ success: false, message: err.message }))
 	}
+
+	static searchQuotes(req, res) {
+		Quote.findAll({where: {
+			quote: {
+				$like: `%${req.query.searchTerm}%`
+			}
+		}
+		}).then((searchResult) => {
+			res.status(200).send({message: searchResult});
+		}).catch(err => res.status(400).send({ success: false, message: err.message }))
+	}
+}
+export default QuotesController;
