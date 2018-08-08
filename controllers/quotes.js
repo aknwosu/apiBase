@@ -49,3 +49,47 @@ class QuotesController {
 			return res.status(200).send({success: true, data: quotes});
 		}).catch(err => res.status(400).send({ success: false, message: err.message }));
 	}
+
+	static getLongestWordInQuote(req, res) {
+		Quote.findOne({ where: 
+      {id: req.params.quoteId}
+		}).then((quote) => {
+			if (!quote) {
+				return res.status(404).send({message: 'not found'});
+			}
+			let fullQuote = quote.quote;
+			fullQuote = fullQuote.replace(/[^A-Za-z0-9 ]/g, '').split(' ');
+			let longest = fullQuote[0];
+			fullQuote.forEach((word) => {
+				if (word.length > longest.length){
+					longest = word;
+				}
+				return -1;
+			});
+			return res.status(200).send({ 
+				success: true, 
+				data: {
+					quote: quote.quote,
+					author: quote.author,
+					longest_word: longest, 
+					length: longest.length
+				}});
+		}).catch(err => res.status(400).send({ success: false, message: err.message }));
+	}
+
+	static editQuote (req, res) {
+		Quote.findOne({where: {
+			id: req.params.quoteId
+		}}).then((quote) => {
+			if(!quote) {
+				return res.status(404).send({message: 'not found'});
+			}
+			return quote.update({
+				author: req.body.author || quote.author,
+				year: req.body.year || quote.year,
+				quote: req.body.quote || quote.quote
+			}).then((updatedQuote) => {
+				res.status(200).send({message: 'updated', data: updatedQuote});
+			});
+		}).catch(err => res.status(400).send({ success: false, message: err.message }))
+	}

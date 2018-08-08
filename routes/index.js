@@ -10,6 +10,8 @@ module.exports = (app) => {
 
 	app.route('/api/v1/quotes/:quoteId')
 		.get(QuotesController.getQuotesById)
+		.put(QuotesController.editQuote)
+		.delete(QuotesController.deleteById);
 	app.route('/api/v1/quotes/authors/:author')
 		.get(QuotesController.getQuoteByAuthor)
 	app.route('/api/v1/quotes/years/:year')
