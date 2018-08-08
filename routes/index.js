@@ -14,6 +14,9 @@ module.exports = (app) => {
 		.delete(QuotesController.deleteById);
 	app.route('/api/v1/quotes/authors/:author')
 		.get(QuotesController.getQuoteByAuthor)
+		.delete(QuotesController.deleteByAuthor);
+
 	app.route('/api/v1/quotes/years/:year')
 		.get(QuotesController.getQuoteByYear)
+		.delete(QuotesController.deleteByYear);
 };
