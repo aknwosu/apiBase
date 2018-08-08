@@ -134,14 +134,16 @@ class QuotesController {
 	}
 
 	static searchQuotes(req, res) {
-		
 		Quote.findAll({where: {
 			quote: {
 				$iLike: `%${req.query.searchTerm}%`
 			}
 		}
 		}).then((searchResult) => {
-			res.status(200).send({message: searchResult});
+			if (!searchResult.length) {
+				return res.status(404).send({ success: false, message: 'Not found'});
+			}
+			return res.status(200).send({success: true, data: searchResult});
 		}).catch(err => res.status(400).send({ success: false, message: err.message }))
 	}
 }
