@@ -4,8 +4,8 @@ const Main = ({ quotes }) => (
   <div className="mainEntry">
     <div>
       {quotes && quotes.map(({ quote, author, year }, index) =>
-        (<Row key={`quote${index}`}>
-          <Card className="teal lighten-2" key={`quote${index}`} textClassName="white-text" actions={[<div>{author}, {year}</div>]}>
+        (<Row key={`quote${index}`} className="cardRow">
+          <Card className="teal lighten-2 cardContent" key={`quote${index}`} textClassName="white-text" actions={[<div>{author}, {year}</div>]}>
             <h5>{quote}</h5>
           </Card>
         </Row>)

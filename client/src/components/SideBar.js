@@ -101,7 +101,7 @@ export default class SideBar extends Component {
               waves="light"
               onClick={this.search}
             >
-            Search<Icon left>cloud</Icon>
+            Search
             </Button>
           </Row>
           <Row>
@@ -117,7 +117,7 @@ export default class SideBar extends Component {
               waves="light"
               onClick={this.filter}
             >
-            Filter<Icon left>cloud</Icon>
+            Filter
             </Button>
           </Row>
         </div>

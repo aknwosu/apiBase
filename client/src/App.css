@@ -4,11 +4,13 @@
 
 .createQuote {
   float: left;
-  margin-left: 7px
+  margin-left: 7px;
 }
 
 .filterSearch {
   margin-top: 25px;
+  width: 30%;
+  font-size: 14px;
 }
 
 .mainEntry {
@@ -20,6 +22,16 @@
   width: 100%;
   margin-top: 95px;
   margin-bottom: 35px;
+}
+
+.cardRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardContent {
+  width: 60%;
 }
 
 @keyframes App-logo-spin {
